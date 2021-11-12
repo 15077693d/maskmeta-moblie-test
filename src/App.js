@@ -1,9 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
-
+import logo from "./logo.svg";
+import "./App.css";
+import { useState, useEffect } from "react";
 function App() {
+  const [address, setAddress] = useState("init");
+  useEffect(() => {
+    // if user has metamask
+    if (window.ethereum) {
+      const handleAccountsChanged = () => {
+        if (window.ethereum) {
+          void window.ethereum
+            .request({ method: "eth_accounts" })
+            .then((_address) => setAddress(_address[0]));
+        }
+      };
+      // when MetaMask change account, set the account's user select.
+      window.ethereum.on("accountsChanged", handleAccountsChanged);
+      return () => {
+        if (window.ethereum) {
+          // clear up event listener when  react component is unmounted
+          window.ethereum.removeListener(
+            "accountsChanged",
+            handleAccountsChanged
+          );
+        }
+      };
+    }
+  }, []);
   return (
     <div className="App">
+      <b>{address}</b>
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
