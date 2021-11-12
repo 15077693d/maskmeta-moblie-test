@@ -6,8 +6,17 @@ function App() {
   useEffect(() => {
     // if user has metamask
     if (window.ethereum) {
+      console.log(1);
+      window.ethereum
+        .request({
+          method: "eth_requestAccounts",
+        })
+        .then((_address) => setAddress(_address[0]));
+    }
+    if (window.ethereum) {
       const handleAccountsChanged = () => {
         if (window.ethereum) {
+          console.log(2);
           void window.ethereum
             .request({ method: "eth_accounts" })
             .then((_address) => setAddress(_address[0]));
