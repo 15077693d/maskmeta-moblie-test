@@ -2,8 +2,7 @@ import React from "react";
 import { injected } from "./utils";
 import { useWeb3React } from "@web3-react/core";
 const Wallet = () => {
-  const { active, account, library, connector, activate, deactivate } =
-    useWeb3React();
+  const { active, account, activate, deactivate } = useWeb3React();
   console.log(active, account);
 
   async function connect() {
